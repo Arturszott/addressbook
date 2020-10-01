@@ -1,16 +1,26 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { LOADING_STATES, SEED, RESULTS_COUNT } from '../../constants';
+import { toQuery } from '../../utils';
+import { selectNationality } from '../settings/slice';
 
 export const fetchUserList = createAsyncThunk(
   'list/users',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
+    const nationality = state.settings.nationality;
     // page is 1 index based
     const page = state.users.page + 1;
 
+    const queryMap = {
+      seed: SEED,
+      results: RESULTS_COUNT,
+      nat: nationality,
+      page,
+    };
+
     const response = await fetch(
-      `https://randomuser.me/api/?seed=${SEED}&results=${RESULTS_COUNT}&page=${page}`,
+      `https://randomuser.me/api/?${toQuery(queryMap)}`,
     );
 
     const data = await response.json();
@@ -18,14 +28,18 @@ export const fetchUserList = createAsyncThunk(
     return data.results;
   },
 );
+const initialState = { entities: [], loading: LOADING_STATES.IDLE, page: 0 };
 
 const slice = createSlice({
   name: 'users',
-  initialState: { entities: [], loading: LOADING_STATES.IDLE, page: 0 },
+  initialState,
   reducers: {},
   extraReducers: {
     [fetchUserList.fulfilled]: (state, action) => {
       state.entities.push(...action.payload);
+    },
+    [selectNationality.type]: () => {
+      return initialState;
     },
   },
 });

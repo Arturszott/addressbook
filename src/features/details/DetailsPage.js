@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useHistory, Route } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import './details.scss';
 
