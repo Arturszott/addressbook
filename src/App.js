@@ -4,18 +4,45 @@ import './App.scss';
 import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+import ListPage from './features/list/ListPage';
+import DetailsPage from './features/details/DetailsPage';
+import SettingsPage from './features/settings/SettingsPage';
 
 const rootReducer = combineReducers({});
 const store = configureStore({
   reducer: rootReducer,
 });
 
-function App() {
+export default function App() {
   return (
     <Provider store={store}>
-      <div className="App">Start</div>;
+      <Router>
+        <header>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              {/* <li>
+                <Link to="/settings">Settings</Link>
+              </li> */}
+            </ul>
+          </nav>
+        </header>
+        <Switch>
+          <Route path="/settings">
+            <SettingsPage />
+          </Route>
+          <Route path="/">
+            <ListPage />
+          </Route>
+        </Switch>
+        <Route path="/details/:userId">
+          <DetailsPage />
+        </Route>
+      </Router>
     </Provider>
   );
 }
-
-export default App;
