@@ -10,6 +10,13 @@ test('renders headline', () => {
   expect(h1).toBeInTheDocument();
 });
 
+test('calls fetchUserList to get data for the list', () => {
+  const fetchUserList = jest.fn();
+  render(<ListPage fetchUserList={fetchUserList} />);
+
+  expect(fetchUserList).toHaveBeenCalled();
+});
+
 test('renders list of users', () => {
   const fetchUserList = jest.fn();
   const { getByText } = render(
