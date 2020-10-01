@@ -16,8 +16,16 @@ test('renders list of users', () => {
     <ListPage
       fetchUserList={fetchUserList}
       users={[
-        { name: { first: 'Artur', last: 'Szott' }, login: { uuid: '1' } },
-        { name: { first: 'Peter', last: 'Parker' }, login: { uuid: '1a' } },
+        {
+          name: { first: 'Artur', last: 'Szott' },
+          login: { uuid: '1', username: 'Oliganti' },
+          picture: { thumbnail: 'http://url.com' },
+        },
+        {
+          name: { first: 'Peter', last: 'Parker' },
+          login: { uuid: '2', username: 'Spiderman' },
+          picture: { thumbnail: 'http://url.com' },
+        },
       ]}
     />,
   );

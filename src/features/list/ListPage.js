@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { fetchUserList } from './slice';
+import ListItem from './ListItem';
 
 export function ListPage(props) {
   useEffect(() => {
@@ -10,18 +12,41 @@ export function ListPage(props) {
     // eslint-disable-next-line
   }, []);
 
+  let history = useHistory();
+
+  const navigateToDetails = useCallback(
+    (userId) => {
+      history.push('/details/' + userId);
+    },
+    [history],
+  );
+
   return (
     <section>
       <h1>List</h1>
       <ul>
         {props.users &&
-          props.users.map(({ name: { first, last }, login: { uuid } }) => {
-            return (
-              <li key={uuid}>
-                {first} {last}
-              </li>
-            );
-          })}
+          props.users.map(
+            ({
+              name: { first, last },
+              login: { uuid, username },
+              email,
+              picture: { thumbnail },
+            }) => {
+              return (
+                <ListItem
+                  key={uuid}
+                  src={thumbnail}
+                  firstName={first}
+                  lastName={last}
+                  username={username}
+                  email={email}
+                  uuid={uuid}
+                  navigateToDetails={navigateToDetails}
+                />
+              );
+            },
+          )}
       </ul>
     </section>
   );

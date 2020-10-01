@@ -3,3 +3,6 @@ export const LOADING_STATES = {
   PREFETCHING: 'prefetching',
   LOADING: 'loading',
 };
+
+export const SEED = 'ADDRESS_BOOK';
+export const RESULTS_COUNT = 50;

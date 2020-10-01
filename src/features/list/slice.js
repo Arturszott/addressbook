@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { LOADING_STATES } from './constants';
-
-const SEED = 'ADDRESS_BOOK';
-const RESULTS_COUNT = 50;
+import { LOADING_STATES, SEED, RESULTS_COUNT } from '../../constants';
 
 export const fetchUserList = createAsyncThunk(
   'list/users',
