@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.scss';
 
-import { combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -10,7 +9,8 @@ import ListPage from './features/list/ListPage';
 import DetailsPage from './features/details/DetailsPage';
 import SettingsPage from './features/settings/SettingsPage';
 
-const rootReducer = combineReducers({});
+import rootReducer from './rootReducer';
+
 const store = configureStore({
   reducer: rootReducer,
 });
