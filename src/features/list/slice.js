@@ -35,8 +35,16 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [fetchUserList.pending]: (state) => {
+      state.loading = LOADING_STATES.LOADING;
+    },
     [fetchUserList.fulfilled]: (state, action) => {
       state.entities.push(...action.payload);
+      state.loading = LOADING_STATES.IDLE;
+      state.page += 1;
+    },
+    [fetchUserList.rejected]: (state) => {
+      state.loading = LOADING_STATES.IDLE;
     },
     [selectNationality.type]: () => {
       return initialState;

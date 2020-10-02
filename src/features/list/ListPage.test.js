@@ -4,7 +4,9 @@ import { ListPage } from './ListPage';
 
 test('renders headline', () => {
   const fetchUserList = jest.fn();
-  const { getByText } = render(<ListPage fetchUserList={fetchUserList} />);
+  const { getByText } = render(
+    <ListPage fetchUserList={fetchUserList} users={[]} />,
+  );
   const h1 = getByText(/List/i);
 
   expect(h1).toBeInTheDocument();
@@ -12,7 +14,7 @@ test('renders headline', () => {
 
 test('calls fetchUserList to get data for the list', () => {
   const fetchUserList = jest.fn();
-  render(<ListPage fetchUserList={fetchUserList} />);
+  render(<ListPage fetchUserList={fetchUserList} users={[]} />);
 
   expect(fetchUserList).toHaveBeenCalled();
 });
