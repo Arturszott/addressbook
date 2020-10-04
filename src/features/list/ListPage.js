@@ -1,10 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import ListItem from './ListItem';
-import { RESULTS_COUNT, LOADING_STATES } from '../../constants';
+import {
+  RESULTS_COUNT,
+  LOADING_STATES,
+  MAX_USERS_COUNT,
+} from '../../constants';
 
 const Row = React.memo((props) => {
   const { index, style, data } = props;
@@ -13,8 +17,8 @@ const Row = React.memo((props) => {
     const {
       name: { first, last },
       login: { uuid, username },
-      email,
       picture: { thumbnail },
+      email,
     } = data.users[index];
 
     return (
@@ -36,7 +40,7 @@ const Row = React.memo((props) => {
 
   return (
     <div className="VirtualizedListItem" style={style}>
-      Loading...
+      {data.isFiltering ? '' : 'Loading...'}
     </div>
   );
 });
@@ -46,34 +50,51 @@ export default function ListPage({
   fetchUserList,
   users,
   loading,
+  searchPhrase,
 }) {
-  let history = useHistory();
+  const history = useHistory();
+  const filteredUsers = useMemo(
+    () =>
+      searchPhrase
+        ? users.filter((user) => {
+            return (
+              `${user.name.first} ${user.name.last}`
+                .toLowerCase()
+                .indexOf(searchPhrase.toLowerCase()) !== -1
+            );
+          })
+        : users,
+    [searchPhrase, users],
+  );
+  const itemCount = searchPhrase ? filteredUsers.length : MAX_USERS_COUNT;
 
   const navigateToDetails = useCallback(
     (userId, index) => {
-      setUserData(users[index]);
-      history.push('/details/' + userId);
+      setUserData(filteredUsers[index]);
+
+      history.push(`/details/${userId}`);
     },
-    [history, setUserData, users],
+    [filteredUsers, history, setUserData],
   );
 
-  const isItemLoaded = useCallback((index) => index < users.length, [
-    users.length,
+  const isItemLoaded = useCallback((index) => index < filteredUsers.length, [
+    filteredUsers.length,
   ]);
 
-  const loadMoreItems = () => {
+  const loadMoreItems = useCallback(() => {
     if (loading !== LOADING_STATES.LOADING) {
       fetchUserList();
     }
-  };
+  }, [fetchUserList, loading]);
 
   return (
     <section>
       <h1>List</h1>
+      {searchPhrase && 'Only previously loaded users are shown while filtering'}
       {users && (
         <InfiniteLoader
           isItemLoaded={isItemLoaded}
-          itemCount={1000}
+          itemCount={itemCount}
           threshold={RESULTS_COUNT}
           loadMoreItems={loadMoreItems}
         >
@@ -81,8 +102,12 @@ export default function ListPage({
             <List
               className="List"
               height={450}
-              itemCount={1000}
-              itemData={{ users: users, navigateToDetails }}
+              itemCount={itemCount}
+              itemData={{
+                users: filteredUsers,
+                navigateToDetails,
+                isFiltering: Boolean(searchPhrase),
+              }}
               itemSize={51}
               onItemsRendered={onItemsRendered}
               ref={ref}
@@ -93,7 +118,8 @@ export default function ListPage({
           )}
         </InfiniteLoader>
       )}
-      {users.length === 1000 && <strong>End of catalog</strong>}
+
+      {users.length === MAX_USERS_COUNT && <strong>End of catalog</strong>}
     </section>
   );
 }
