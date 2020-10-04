@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 
+import './settings.scss';
+
 const nationalities = ['CH', 'ES', 'FR', 'GB'];
 
 export default function SettingsPage({
@@ -14,7 +16,7 @@ export default function SettingsPage({
   );
 
   return (
-    <section className="page">
+    <section className="SettingsPage page">
       <h1>Settings</h1>
 
       <label>
