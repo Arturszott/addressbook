@@ -5,6 +5,7 @@ import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import { fetchUserList } from './slice';
+import { setUserData } from '../details/slice';
 import ListItem from './ListItem';
 import { RESULTS_COUNT, LOADING_STATES } from '../../constants';
 
@@ -30,6 +31,7 @@ class Row extends React.PureComponent {
             username={username}
             email={email}
             uuid={uuid}
+            index={index}
             navigateToDetails={data.navigateToDetails}
           />
         </div>
@@ -38,7 +40,7 @@ class Row extends React.PureComponent {
 
     return (
       <div className="VirtualizedListItem" style={style}>
-        'Loading'
+        Loading...
       </div>
     );
   }
@@ -48,10 +50,11 @@ export function ListPage(props) {
   let history = useHistory();
 
   const navigateToDetails = useCallback(
-    (userId) => {
+    (userId, index) => {
+      props.setUserData(props.users[index]);
       history.push('/details/' + userId);
     },
-    [history],
+    [history, props],
   );
 
   const isItemLoaded = (index) => index < props.users.length;
@@ -99,4 +102,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchUserList })(ListPage);
+export default connect(mapStateToProps, { fetchUserList, setUserData })(
+  ListPage,
+);

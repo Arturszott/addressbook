@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import './details.scss';
-
-import { fetchUserById } from './slice';
 
 function renderAddress(user) {
   const {
@@ -34,29 +32,28 @@ function renderContact(user) {
 }
 
 export function DetailsPage(props) {
-  const params = useParams();
   const history = useHistory();
-
-  useEffect(() => {
-    props.fetchUserById(params.userId);
-
-    // eslint-disable-next-line
-  }, []);
+  const goBack = useCallback(() => {
+    history.goBack();
+  }, [history]);
 
   return (
     <section className="DetailsPage">
       <h1>Details</h1>
-      <button onClick={() => history.goBack()}>Close</button>
 
-      {!props.user && 'Loading...'}
       {props.user && (
         <div>
+          <h2>Name</h2>
+          <p>
+            {props.user.name.first} {props.user.name.last}
+          </p>
           <h2>Address</h2>
           {renderAddress(props.user)}
           <h2>Contact</h2>
           {renderContact(props.user)}
         </div>
       )}
+      <button onClick={goBack}>Close</button>
     </section>
   );
 }
@@ -67,4 +64,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchUserById })(DetailsPage);
+export default connect(mapStateToProps)(DetailsPage);

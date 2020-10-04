@@ -1,12 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Router, Route } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
 
 import { DetailsPage } from './DetailsPage';
 
 const user = {
+  name: {
+    first: 'V',
+    last: '',
+  },
   location: {
     street: {
       name: 'Cyberpunk',
@@ -36,27 +40,9 @@ test('renders all user details', () => {
   expect(city).toBeInTheDocument();
 });
 
-test('calls fetchUserById with userId to get data for the view on mount', () => {
-  const fetchMock = jest.fn();
-
-  const history = createMemoryHistory({
-    initialEntries: ['/details/some-user-id'],
-  });
-
-  render(
-    <Router history={history}>
-      <Route path="/details/:userId">
-        <DetailsPage fetchUserById={fetchMock} user={user} />
-      </Route>
-    </Router>,
-  );
-
-  expect(fetchMock).toHaveBeenCalledWith('some-user-id');
-});
-
 test('goes back in history when close button is clicked', () => {
   const fetchMock = jest.fn();
-  let goBackMock = jest.fn();
+  const goBackMock = jest.fn();
 
   const history = createMemoryHistory();
   history.goBack = goBackMock;
