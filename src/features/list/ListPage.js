@@ -57,7 +57,10 @@ export function ListPage(props) {
     [history, props],
   );
 
-  const isItemLoaded = (index) => index < props.users.length;
+  const isItemLoaded = useCallback((index) => index < props.users.length, [
+    props.users.length,
+  ]);
+
   const loadMoreItems = () => {
     if (props.loading !== LOADING_STATES.LOADING) {
       props.fetchUserList();
@@ -99,6 +102,7 @@ const mapStateToProps = (state) => {
   return {
     users: state.users.entities,
     loading: state.users.loading,
+    searchPhrase: state.search.phrase,
   };
 };
 

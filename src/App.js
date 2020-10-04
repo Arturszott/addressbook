@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import ListPage from './features/list/ListPage';
 import DetailsPage from './features/details/DetailsPage';
 import SettingsPage from './features/settings/SettingsPage';
+import SearchFilter from './features/search/SearchFilter';
 
 import rootReducer from './rootReducer';
 
@@ -30,6 +31,7 @@ export default function App() {
               </li>
             </ul>
           </nav>
+          <SearchFilter />
         </header>
         <Switch>
           <Route path="/settings">
