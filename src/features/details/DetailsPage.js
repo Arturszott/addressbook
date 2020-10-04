@@ -30,7 +30,7 @@ function renderContact(user) {
   );
 }
 
-export default function DetailsPage(props) {
+export default function DetailsPage({ user }) {
   const history = useHistory();
   const goBack = useCallback(() => {
     history.goBack();
@@ -40,18 +40,16 @@ export default function DetailsPage(props) {
     <section className="DetailsPage">
       <h1>Details</h1>
 
-      {props.user && (
-        <div>
-          <h2>Name</h2>
-          <p>
-            {props.user.name.first} {props.user.name.last}
-          </p>
-          <h2>Address</h2>
-          {renderAddress(props.user)}
-          <h2>Contact</h2>
-          {renderContact(props.user)}
-        </div>
-      )}
+      <div>
+        <h2>Name</h2>
+        <p>
+          {user.name.first} {user.name.last}
+        </p>
+        <h2>Address</h2>
+        {renderAddress(user)}
+        <h2>Contact</h2>
+        {renderContact(user)}
+      </div>
       <button onClick={goBack}>Close</button>
     </section>
   );

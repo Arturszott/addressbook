@@ -6,68 +6,71 @@ import InfiniteLoader from 'react-window-infinite-loader';
 import ListItem from './ListItem';
 import { RESULTS_COUNT, LOADING_STATES } from '../../constants';
 
-class Row extends React.PureComponent {
-  render() {
-    const { index, style, data } = this.props;
+const Row = React.memo((props) => {
+  const { index, style, data } = props;
 
-    if (data.users[index]) {
-      const {
-        name: { first, last },
-        login: { uuid, username },
-        email,
-        picture: { thumbnail },
-      } = data.users[index];
-
-      return (
-        <div className="VirtualizedListItem" style={style}>
-          <ListItem
-            key={uuid}
-            src={thumbnail}
-            firstName={first}
-            lastName={last}
-            username={username}
-            email={email}
-            uuid={uuid}
-            index={index}
-            navigateToDetails={data.navigateToDetails}
-          />
-        </div>
-      );
-    }
+  if (data.users[index]) {
+    const {
+      name: { first, last },
+      login: { uuid, username },
+      email,
+      picture: { thumbnail },
+    } = data.users[index];
 
     return (
       <div className="VirtualizedListItem" style={style}>
-        Loading...
+        <ListItem
+          key={uuid}
+          src={thumbnail}
+          firstName={first}
+          lastName={last}
+          username={username}
+          email={email}
+          uuid={uuid}
+          index={index}
+          navigateToDetails={data.navigateToDetails}
+        />
       </div>
     );
   }
-}
 
-export default function ListPage(props) {
+  return (
+    <div className="VirtualizedListItem" style={style}>
+      Loading...
+    </div>
+  );
+});
+
+export default function ListPage({
+  setUserData,
+  fetchUserList,
+  users,
+  loading,
+}) {
   let history = useHistory();
 
   const navigateToDetails = useCallback(
     (userId, index) => {
-      props.setUserData(props.users[index]);
+      setUserData(users[index]);
       history.push('/details/' + userId);
     },
-    [history, props],
+    [history, setUserData, users],
   );
 
-  const isItemLoaded = useCallback((index) => index < props.users.length, [
-    props.users.length,
+  const isItemLoaded = useCallback((index) => index < users.length, [
+    users.length,
   ]);
 
   const loadMoreItems = () => {
-    if (props.loading !== LOADING_STATES.LOADING) {
-      props.fetchUserList();
+    if (loading !== LOADING_STATES.LOADING) {
+      fetchUserList();
     }
   };
 
   return (
     <section>
       <h1>List</h1>
-      {props.users && (
+      {users && (
         <InfiniteLoader
           isItemLoaded={isItemLoaded}
           itemCount={1000}
@@ -79,7 +82,7 @@ export default function ListPage(props) {
               className="List"
               height={450}
               itemCount={1000}
-              itemData={{ users: props.users, navigateToDetails }}
+              itemData={{ users: users, navigateToDetails }}
               itemSize={51}
               onItemsRendered={onItemsRendered}
               ref={ref}
@@ -90,7 +93,7 @@ export default function ListPage(props) {
           )}
         </InfiniteLoader>
       )}
-      {props.users.length === 1000 && <strong>End of catalog</strong>}
+      {users.length === 1000 && <strong>End of catalog</strong>}
     </section>
   );
 }

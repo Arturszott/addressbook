@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 
-export default function SearchFilter(props) {
+export default function SearchFilter({ setPhrase, searchPhrase }) {
   const onChange = useCallback(
     (event) => {
-      props.setPhrase(event.target.value);
+      setPhrase(event.target.value);
     },
-    [props],
+    [setPhrase],
   );
 
   return (
@@ -16,7 +16,7 @@ export default function SearchFilter(props) {
           type="text"
           name="search"
           onChange={onChange}
-          value={props.searchPhrase}
+          value={searchPhrase}
         />
       </label>
     </section>

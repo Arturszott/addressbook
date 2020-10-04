@@ -16,10 +16,12 @@ export default function SettingsPage({
   return (
     <section>
       <h1>Settings</h1>
+
       <label>
         List user's nationality:
         <select value={selectedNationality} onChange={onChange}>
           <option value="">All</option>
+
           {nationalities.map((nationality) => {
             return (
               <option value={nationality} key={nationality}>
