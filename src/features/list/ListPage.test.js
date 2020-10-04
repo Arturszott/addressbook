@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 
-import { ListPage } from './ListPage';
+import ListPage from './ListPage';
 
 test('renders headline', () => {
   const fetchUserList = jest.fn();

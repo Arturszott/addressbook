@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import ListPage from './features/list/ListPage';
-import DetailsPage from './features/details/DetailsPage';
-import SettingsPage from './features/settings/SettingsPage';
-import SearchFilter from './features/search/SearchFilter';
+import List from './features/list';
+import Details from './features/details';
+import Settings from './features/settings';
+import Search from './features/search';
 
 import rootReducer from './rootReducer';
 
@@ -31,18 +31,19 @@ export default function App() {
               </li>
             </ul>
           </nav>
-          <SearchFilter />
+          <Search />
         </header>
+
         <Switch>
           <Route path="/settings">
-            <SettingsPage />
+            <Settings />
           </Route>
           <Route path="/">
-            <ListPage />
+            <List />
           </Route>
         </Switch>
         <Route path="/details/:userId">
-          <DetailsPage />
+          <Details />
         </Route>
       </Router>
     </Provider>

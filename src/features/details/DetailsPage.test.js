@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
 
-import { DetailsPage } from './DetailsPage';
+import DetailsPage from './DetailsPage';
 
 const user = {
   name: {

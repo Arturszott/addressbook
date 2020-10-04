@@ -1,11 +1,8 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
-import { fetchUserList } from './slice';
-import { setUserData } from '../details/slice';
 import ListItem from './ListItem';
 import { RESULTS_COUNT, LOADING_STATES } from '../../constants';
 
@@ -46,7 +43,7 @@ class Row extends React.PureComponent {
   }
 }
 
-export function ListPage(props) {
+export default function ListPage(props) {
   let history = useHistory();
 
   const navigateToDetails = useCallback(
@@ -97,15 +94,3 @@ export function ListPage(props) {
     </section>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    users: state.users.entities,
-    loading: state.users.loading,
-    searchPhrase: state.search.phrase,
-  };
-};
-
-export default connect(mapStateToProps, { fetchUserList, setUserData })(
-  ListPage,
-);

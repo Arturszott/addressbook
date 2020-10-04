@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import './details.scss';
@@ -31,7 +30,7 @@ function renderContact(user) {
   );
 }
 
-export function DetailsPage(props) {
+export default function DetailsPage(props) {
   const history = useHistory();
   const goBack = useCallback(() => {
     history.goBack();
@@ -57,11 +56,3 @@ export function DetailsPage(props) {
     </section>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.user.details,
-  };
-};
-
-export default connect(mapStateToProps)(DetailsPage);

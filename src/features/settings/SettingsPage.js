@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
-
-import { selectNationality } from './slice';
 
 const nationalities = ['CH', 'ES', 'FR', 'GB'];
 
-export function SettingsPage({ selectNationality, selectedNationality }) {
+export default function SettingsPage({
+  selectNationality,
+  selectedNationality,
+}) {
   const onChange = useCallback(
     (event) => {
       selectNationality(event.target.value);
@@ -32,11 +32,3 @@ export function SettingsPage({ selectNationality, selectedNationality }) {
     </section>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    selectedNationality: state.settings.nationality,
-  };
-};
-
-export default connect(mapStateToProps, { selectNationality })(SettingsPage);

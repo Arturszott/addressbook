@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { SettingsPage } from './SettingsPage';
+import SettingsPage from './SettingsPage';
 import userEvent from '@testing-library/user-event';
 
 test('renders headline', () => {

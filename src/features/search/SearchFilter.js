@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
 
-import { setPhrase } from './slice';
-
-export function SearchFilter(props) {
+export default function SearchFilter(props) {
   const onChange = useCallback(
     (event) => {
       props.setPhrase(event.target.value);
@@ -25,11 +22,3 @@ export function SearchFilter(props) {
     </section>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    searchPhrase: state.search.phrase,
-  };
-};
-
-export default connect(mapStateToProps, { setPhrase })(SearchFilter);
