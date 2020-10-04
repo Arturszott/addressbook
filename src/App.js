@@ -31,7 +31,6 @@ export default function App() {
               </li>
             </ul>
           </nav>
-          <Search />
         </header>
 
         <Switch>
@@ -39,6 +38,7 @@ export default function App() {
             <Settings />
           </Route>
           <Route path="/">
+            <Search />
             <List />
           </Route>
         </Switch>
