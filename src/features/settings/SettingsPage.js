@@ -14,7 +14,7 @@ export default function SettingsPage({
   );
 
   return (
-    <section>
+    <section className="page">
       <h1>Settings</h1>
 
       <label>

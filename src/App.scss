@@ -1,4 +1,19 @@
-.App {
-  text-align: center;
-  background: pink;
+.main-header {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+  ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+
+    li {
+      margin: 10px;
+    }
+  }
+}
+
+.page {
+  flex: 1;
 }

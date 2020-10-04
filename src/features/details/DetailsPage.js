@@ -37,9 +37,7 @@ export default function DetailsPage({ user }) {
   }, [history]);
 
   return (
-    <section className="DetailsPage">
-      <h1>Details</h1>
-
+    <section className="DetailsPage page">
       <div>
         <h2>Name</h2>
         <p>

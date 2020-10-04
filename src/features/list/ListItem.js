@@ -17,9 +17,12 @@ function ListItem({
   ]);
 
   return (
-    <li onClick={onClick}>
-      <img src={src} alt={firstName + ' ' + lastName} /> {firstName} {lastName}{' '}
-      ({username}) {email}
+    <li onClick={onClick} className="ListItem">
+      <img src={src} alt={firstName + ' ' + lastName} />{' '}
+      <span className="name">
+        {firstName} {lastName} ({username})
+      </span>{' '}
+      <span className="email">{email}</span>
     </li>
   );
 }

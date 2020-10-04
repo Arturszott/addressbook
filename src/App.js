@@ -20,7 +20,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <Router>
-        <header>
+        <header className="main-header">
           <nav>
             <ul>
               <li>

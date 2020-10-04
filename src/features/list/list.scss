@@ -1,0 +1,39 @@
+.ListPage {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  min-height: 300px;
+
+  input {
+    margin-left: 10px;
+    padding: 3px;
+  }
+
+  .info-message {
+    height: 38px;
+    color: #fd6969;
+  }
+}
+
+.ListItem {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background: #eee;
+  }
+
+  img {
+    margin-right: 10px;
+  }
+
+  .name {
+    flex: 1;
+  }
+}
+
+.page {
+  flex: 1;
+}

@@ -2,6 +2,12 @@ import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
+import {
+  useWindowWidth,
+  useWindowHeight,
+} from '@react-hook/window-size/throttled';
+
+import './list.scss';
 
 import ListItem from './ListItem';
 import {
@@ -53,6 +59,8 @@ export default function ListPage({
   searchPhrase,
 }) {
   const history = useHistory();
+  const windowWidth = useWindowWidth();
+  const windowHeight = useWindowHeight();
   const filteredUsers = useMemo(
     () =>
       searchPhrase
@@ -88,9 +96,12 @@ export default function ListPage({
   }, [fetchUserList, loading]);
 
   return (
-    <section>
+    <section className="ListPage page">
       <h1>List</h1>
-      {searchPhrase && 'Only previously loaded users are shown while filtering'}
+      <span className="info-message">
+        {searchPhrase &&
+          'Only previously loaded users are shown while filtering'}
+      </span>
       {users && (
         <InfiniteLoader
           isItemLoaded={isItemLoaded}
@@ -100,18 +111,17 @@ export default function ListPage({
         >
           {({ onItemsRendered, ref }) => (
             <List
-              className="List"
-              height={450}
+              height={windowHeight - 300}
+              width={windowWidth - 40}
+              itemSize={51}
               itemCount={itemCount}
               itemData={{
                 users: filteredUsers,
                 navigateToDetails,
                 isFiltering: Boolean(searchPhrase),
               }}
-              itemSize={51}
               onItemsRendered={onItemsRendered}
               ref={ref}
-              width={900}
             >
               {Row}
             </List>
